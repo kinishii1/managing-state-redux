@@ -1,5 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { styled } from 'styled-components'
+import { useSelector, useDispatch } from 'react-redux'
+import { alterarBusca, resetarBusca } from '../../store/reducers/busca'
+import { useLocation } from 'react-router-dom'
 
 const StyledBusca = styled.div`
   input {
@@ -11,12 +14,23 @@ const StyledBusca = styled.div`
     box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
   }
 `
-
-
 function Busca() {
+  const busca = useSelector((state) => state.busca)
+  const dispatch = useDispatch()
+  const location = useLocation()
+
+  useEffect(() => {
+    dispatch(resetarBusca())
+  }
+  , [location.pathname, dispatch])
+
   return (
     <StyledBusca>
-      <input placeholder='O que voce procura'/>
+      <input 
+      placeholder='O que voce procura'
+      value={busca}
+      onChange={(e) => dispatch(alterarBusca(e.target.value))}
+      />
     </StyledBusca>
   )
 }

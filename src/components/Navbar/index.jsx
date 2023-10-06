@@ -2,6 +2,8 @@ import React from "react";
 import { styled } from "styled-components";
 import { RiShoppingCart2Line, RiShoppingCartFill } from "react-icons/ri";
 import Busca from "../Busca";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+
 
 const StyledNavBar = styled.nav`
   background-color: #282c34;
@@ -13,6 +15,7 @@ const StyledNavBar = styled.nav`
 
   h1 {
     margin-left: 2%;
+    cursor: pointer; 
   }
 `;
 
@@ -41,28 +44,31 @@ const StyledIcons = styled.div`
 `;
 
 function NavBar() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   return (
     <StyledNavBar>
-      <h1>TRATOTECH</h1>
+      <h1 onClick={() => navigate('/')}>TRATOTECH</h1>
       <StyledLinks>
         <div>
-          <a
-            className={window.location.pathname === "/" ? "active" : ""}
-            href="/"
+          <Link
+            className={location.pathname === "/" ? "active" : ""}
+            to="/"
           >
             Pagina inicial
-          </a>
+          </Link>
         </div>
       </StyledLinks>
       <Busca />
       <StyledIcons>
-        <a href="/carrinho">
-          {window.location.pathname === "/carrinho" ? (
+        <Link to="/carrinho">
+          {location.pathname === "/carrinho" ? (
             <RiShoppingCartFill />
           ) : (
             <RiShoppingCart2Line />
           )}
-        </a>
+        </Link>
       </StyledIcons>
     </StyledNavBar>
   );
